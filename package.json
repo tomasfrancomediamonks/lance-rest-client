@@ -24,5 +24,9 @@
     "faucet": "0.0.1",
     "jung": "^2.0.2",
     "tape": "^4.0.0"
+  },
+  "dependencies": {
+    "es6-promise": "^2.1.0",
+    "isomorphic-fetch": "^2.0.2"
   }
 }
