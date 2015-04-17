@@ -1,0 +1,28 @@
+{
+  "name": "lance-rest-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tape | faucet",
+    "watch": "jung -D node_modules -- npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/workco/lance-rest-client.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/workco/lance-rest-client/issues"
+  },
+  "homepage": "https://github.com/workco/lance-rest-client",
+  "devDependencies": {
+    "faucet": "0.0.1",
+    "jung": "^2.0.2",
+    "tape": "^4.0.0"
+  }
+}
