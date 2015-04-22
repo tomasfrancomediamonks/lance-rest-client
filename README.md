@@ -218,19 +218,24 @@ Creates a lance instance. Options are:
 * `modelMap` (optional): an object mapping Lance class types identifiers to JavaScript classes (instances
   of BaseModel)
 
-### lance.initialize()
+### initialize()
 
 Initializes a lance instance. Returns a promise that is trigered when the client has fully initialized.
 
-### lance.fetch(linkName, data)
+### metaModel()
+
+Returns the meta model Lance object for this client instance.
+
+### fetch(linkName, data)
 
 Fetches the link specified by `linkName`. Optionally use the object sent as `data` to proceed with
 URI template preparation. Returns a promise that is triggered with the object just fetched.
 
-### lance.create(linkName, data)
+### create(linkName, data)
 
 Creates (`POST`) a resource to `linkName`. Data is an object representing the entity to be created.
 Returns a promise that is triggered with the object that was just created.
+
 
 ## Base Model API
 
