@@ -122,11 +122,11 @@ lance.fetch('person', { uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'} ).then(fun
 });
 ```
 
-## Removing a resource
+## Deleting a resource
 
 ```javascript
 lance.fetch('person', { uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'} ).then(function(person) {
-  person.remove().then(function() {
+  person.delete().then(function() {
     console.log('Person deleted');
   });
 });
@@ -250,36 +250,46 @@ Getter for meta fields (inside `_meta` nodes).
 
 Similar to `lance.fetch(linkName)` with exception of not having the option of sending data (URI template).
 It will return a promise that is triggered when the link represented by `linkName` returns its object.
-  
-## collection()
+
+### save()
+
+Saves the current instance (`PUT`). Returns a promise with the updated resource. Important: the
+resource must have been fetched before being saved.
+
+### delete()
+
+Deletes the current instance (`DELETE`). Returns a promise that is triggered when the entry was 
+successfully deleted. Important: the resource must have been fetched before being saved.
+
+### collection()
 
 If the object is identified as a collection, this method returns the current page's collection. Otherwise
 it returns `undefined`.
 
-## totalCount()
+### totalCount()
 
 If the object is identified as a collection, this method returns the total amount of entries
 for this collection beyond the boundaries of the current page (i.e. a `collection().length` might
 be `20` while a `totalCount()` might be `400` - in practice it means that the current page has 20
 entries but the collection is 400). Otherwise it returns `undefined`.
 
-## currentPage()
+### currentPage()
 
 If the object is identified as a collection, this method returns the number of the current page
 (1-based). Otherwise it returns `undefined`.
 
-## pageCount()
+### pageCount()
 
 If the object is identified as a collection, this method returns the amount of pages in this collection.
 Otherwise it returns `undefined`.
 
-## nextPage()
+### nextPage()
 
 If the object is identified as a collection, this method returns a promise that will get resolved
 with the next page of the collection. Otherwise it returs `undefined`. If there's no next page the
 response is `[]`.
 
-## prevPage()
+### prevPage()
 
 If the object is identified as a collection, this method returns a promise that will get resolved
 with the previous page of the collection. Otherwise it returs `undefined`. If there's no next page the
