@@ -209,25 +209,78 @@ person.more().then(function(person) {
 
 ## Lance API
 
-  initialize()
-  fetch()
-  create()
+### constructor(options)
+
+Creates a lance instance. Options are:
+
+* `baseURL` (mandatory): base URL for the server. i.e. `http://apiserver:3000`
+* `rootPath` (mandatory): resource path for Lance's root document. i.e. `/`
+* `modelMap` (optional): an object mapping Lance class types identifiers to JavaScript classes (instances
+  of BaseModel)
+
+### lance.initialize()
+
+Initializes a lance instance. Returns a promise that is trigered when the client has fully initialized.
+
+### lance.fetch(linkName, data)
+
+Fetches the link specified by `linkName`. Optionally use the object sent as `data` to proceed with
+URI template preparation. Returns a promise that is triggered with the object just fetched.
+
+### lance.create(linkName, data)
+
+Creates (`POST`) a resource to `linkName`. Data is an object representing the entity to be created.
+Returns a promise that is triggered with the object that was just created.
 
 ## Base Model API
 
-  _data[]
-  get()
-  set()
-  meta()
-  
-  fetch()
-  
-  collection()
-  totalCount()
-  currentPage()
-  pageCount()
-  
-  nextPage()
-  prevPage()
+### get(field)
 
+Getter for the internal representation of the `field`. 
 
+### set(field, value)
+
+Setter for the internal representation of the `field` with `value`.
+
+### meta(field)
+
+Getter for meta fields (inside `_meta` nodes).
+
+### fetch(linkName)
+
+Similar to `lance.fetch(linkName)` with exception of not having the option of sending data (URI template).
+It will return a promise that is triggered when the link represented by `linkName` returns its object.
+  
+## collection()
+
+If the object is identified as a collection, this method returns the current page's collection. Otherwise
+it returns `undefined`.
+
+## totalCount()
+
+If the object is identified as a collection, this method returns the total amount of entries
+for this collection beyond the boundaries of the current page (i.e. a `collection().length` might
+be `20` while a `totalCount()` might be `400` - in practice it means that the current page has 20
+entries but the collection is 400). Otherwise it returns `undefined`.
+
+## currentPage()
+
+If the object is identified as a collection, this method returns the number of the current page
+(1-based). Otherwise it returns `undefined`.
+
+## pageCount()
+
+If the object is identified as a collection, this method returns the amount of pages in this collection.
+Otherwise it returns `undefined`.
+
+## nextPage()
+
+If the object is identified as a collection, this method returns a promise that will get resolved
+with the next page of the collection. Otherwise it returs `undefined`. If there's no next page the
+response is `[]`.
+
+## prevPage()
+
+If the object is identified as a collection, this method returns a promise that will get resolved
+with the previous page of the collection. Otherwise it returs `undefined`. If there's no next page the
+response is `[]`.
