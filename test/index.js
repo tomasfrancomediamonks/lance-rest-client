@@ -1,8 +1,7 @@
 var test = require('tape');
+var drakonian = require('drakonian');
 var Lance = require('../index');
 
-test('Lance Object', function(t) {
-  t.plan(1);
-
-  t.equal(2 + 2, 4);
+drakonian.start('./test/server.apib', 4000, function() {
+  drakonian.close();
 });
