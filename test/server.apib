@@ -1,0 +1,383 @@
+FORMAT: 1A
+
+# Responses API
+
+# Group Metadata
+
+## Metadata Resource [/v1]
+
+### Retrieve Metadata [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "_links": {
+                "self": { "href": "/v1/" },
+                "people": { "href": "/people" },
+                "person": { "href": "/person/{uuid}" },
+                "skills": { "href": "/skills" },
+                "skill": { "href": "/skill/{uuid}" }
+              },
+              "_meta": {
+                "class": "Metadata"
+              },
+              "version": "1.0",
+              "serverName": "Snakebar"
+            }
+
+# Group People
+
+## List of People [/v1/people]
+
+### Retrieve People [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "_links": {
+                "self": { "href": "/v1/people" },
+                "next": { "href": "/v1/people?page=2" }
+              },
+              "_meta": {
+                "class": "PeopleCollection",
+                "collectionNode": "peopleList",
+                "totalCount": 6,
+                "currentPage": 1,
+                "pageCount": 3
+              },
+              "peopleList": [
+                {
+                  "_links": {
+                    "self": { "href": "/v1/person/88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1" }
+                  },
+                  "_meta": {
+                    "class": "Person",
+                    "skillLevels": {
+                      "_meta": {
+                        "class": "SkillLevelsCollection",
+                        "collectionNode": "skillLevelsList"
+                      },
+                      "skillLevelsList": [
+                        {
+                          "_meta": { "class": "SkillLevel" },
+                          "skill": {
+                            "_links": {
+                              "self": { "href": "/v1/skill/d428b954-e867-11e4-b02c-1681e6b88ec1" }
+                            },
+                            "_meta": { "class": "Skill" },
+                            "name": "Android"
+                          },
+                          "level": 3
+                        },
+                        {
+                          "_meta": { "class": "SkillLevel" },
+                          "skill": {
+                            "_links": {
+                              "self": { "href": "/v1/skill/12d75d54-e868-11e4-b02c-1681e6b88ec1" }
+                            },
+                            "_meta": { "class": "Skill" },
+                            "name": "Arduino"
+                          },
+                          "level": 2
+                        }
+                      ]
+                    }
+                  },
+                  "_id": "88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1",
+                  "name": "Miles Davis",
+                  "email": "miles.davis@gmail.com"
+                },
+                {
+                  "_links": {
+                    "self": { "href": "/v1/person/88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1" }
+                  },
+                  "_meta": {
+                    "class": "Person",
+                    "skillLevels": {
+                      "_meta": {
+                        "class": "SkillLevelsCollection",
+                        "collectionNode": "skillLevelsList"
+                      },
+                      "skillLevelsList": [
+                        {
+                          "_meta": { "class": "SkillLevel" },
+                          "skill": {
+                            "_links": {
+                              "self": { "href": "/v1/skill/d428b954-e867-11e4-b02c-1681e6b88ec1" }
+                            },
+                            "_meta": { "class": "Skill" },
+                            "name": "Android"
+                          },
+                          "level": 3
+                        },
+                        {
+                          "_meta": { "class": "SkillLevel" },
+                          "skill": {
+                            "_links": {
+                              "self": { "href": "/v1/skill/12d75d54-e868-11e4-b02c-1681e6b88ec1" }
+                            },
+                            "_meta": { "class": "Skill" },
+                            "name": "Arduino"
+                          },
+                          "level": 2
+                        }
+                      ]
+                    }
+                  },
+                  "_id": "88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1",
+                  "name": "Miles Davis",
+                  "email": "miles.davis@gmail.com"
+                },
+                {
+                  "_links": {
+                    "self": { "href": "/v1/person/88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1" }
+                  },
+                  "_meta": {
+                    "class": "Person",
+                    "skillLevels": {
+                      "_meta": {
+                        "class": "SkillLevelsCollection",
+                        "collectionNode": "skillLevelsList"
+                      },
+                      "skillLevelsList": [
+                        {
+                          "_meta": { "class": "SkillLevel" },
+                          "skill": {
+                            "_links": {
+                              "self": { "href": "/v1/skill/d428b954-e867-11e4-b02c-1681e6b88ec1" }
+                            },
+                            "_meta": { "class": "Skill" },
+                            "name": "Android"
+                          },
+                          "level": 3
+                        },
+                        {
+                          "_meta": { "class": "SkillLevel" },
+                          "skill": {
+                            "_links": {
+                              "self": { "href": "/v1/skill/12d75d54-e868-11e4-b02c-1681e6b88ec1" }
+                            },
+                            "_meta": { "class": "Skill" },
+                            "name": "Arduino"
+                          },
+                          "level": 2
+                        }
+                      ]
+                    }
+                  },
+                  "_id": "88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1",
+                  "name": "Miles Davis",
+                  "email": "miles.davis@gmail.com"
+                }
+              ]
+            }
+
+### Create a Person [POST]
+
++ Request (application/json)
+
+            {
+              "name": "Miles Davis",
+              "email": "miles.davis@gmail.com"
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+              "_links": {
+                "self": { "href": "/v1/person/88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1" }
+              },
+              "_meta": {
+                "class": "Person"
+              },
+              "_id": "88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1",
+              "name": "Miles Davis",
+              "email": "miles.davis@gmail.com"
+            }
+
+## Specific Person [/v1/person/{uuid}]
+
+### Retrieve a Person [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "_links": {
+                "self": { "href": "/v1/person/88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1" }
+              },
+              "_meta": {
+                "class": "Person",
+                "skillLevels": {
+                  "_meta": {
+                    "class": "SkillLevelsCollection",
+                    "collectionNode": "skillLevelsList"
+                  },
+                  "skillLevelsList": [
+                    {
+                      "_meta": { "class": "SkillLevel" },
+                      "skill": {
+                        "_links": {
+                          "self": { "href": "/v1/skill/d428b954-e867-11e4-b02c-1681e6b88ec1" }
+                        },
+                        "_meta": { "class": "Skill" },
+                        "name": "Android"
+                      },
+                      "level": 3
+                    },
+                    {
+                      "_meta": { "class": "SkillLevel" },
+                      "skill": {
+                        "_links": {
+                          "self": { "href": "/v1/skill/12d75d54-e868-11e4-b02c-1681e6b88ec1" }
+                        },
+                        "_meta": { "class": "Skill" },
+                        "name": "Arduino"
+                      },
+                      "level": 2
+                    }
+                  ]
+                }
+              },
+              "_id": "88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1",
+              "name": "Miles Davis",
+              "email": "miles.davis@gmail.com"
+            }
+
+### Update a Person [PUT]
+
++ Request (application/json)
+
+            {
+              "name": "Miles Davis",
+              "email": "miles.davis@gmail.com"
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "_links": {
+                "self": { "href": "/v1/person/88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1" }
+              },
+              "_meta": {
+                "class": "Person",
+                "skillLevels": {
+                  "_meta": {
+                    "class": "SkillLevelsCollection",
+                    "collectionNode": "skillLevelsList"
+                  },
+                  "skillLevelsList": [
+                    {
+                      "_meta": { "class": "SkillLevel" },
+                      "skill": {
+                        "_links": {
+                          "self": { "href": "/v1/skill/d428b954-e867-11e4-b02c-1681e6b88ec1" }
+                        },
+                        "_meta": { "class": "Skill" },
+                        "name": "Android"
+                      },
+                      "level": 3
+                    },
+                    {
+                      "_meta": { "class": "SkillLevel" },
+                      "skill": {
+                        "_links": {
+                          "self": { "href": "/v1/skill/12d75d54-e868-11e4-b02c-1681e6b88ec1" }
+                        },
+                        "_meta": { "class": "Skill" },
+                        "name": "Arduino"
+                      },
+                      "level": 2
+                    }
+                  ]
+                }
+              },
+              "_id": "88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1",
+              "name": "Miles Davis",
+              "email": "miles.davis@gmail.com"
+            }
+
+### Delete a Person [DELETE]
+
+## Person's Skill Levels Collection [/v1/person/{uuid}/skill_levels]
+
+### Add a Skill Level [POST]
+
+## Person's Specific Skill Level [/v1/person/{uuid}/skill_level/{level_uuid}]
+
+### Retrieve a Skill Level [GET]
+
+### Update a Skill Level [PUT]
+
+### Delete a Skill Level [DELETE]
+
+
+# Group Skills
+
+## List of Skills [/v1/skills]
+
+### Retrieve List of Skills [GET]
+
+### Create Skill [POST]
+
+## Specific Skill [/v1/skill/{uuid}]
+
+### Retrieve Skill [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "_links": {
+                "self": { "href": "/v1/skill/88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1" }
+              },
+              "_meta": {
+                "class": "Skill",
+                "peopleLevels": {
+                  "_meta": {
+                    "class": "PersonLevelsCollection",
+                    "collectionNode": "peopleLevelsList"
+                  },
+                  "peopleLevelsList": [
+                    {
+                      "_meta": { "class": "PersonLevel" },
+                      "person": {
+                        "_links": {
+                          "self": { "href": "/v1/person/d428b954-e867-11e4-b02c-1681e6b88ec1" }
+                        },
+                        "_meta": { "class": "Person" },
+                        "name": "Miles Davis"
+                      },
+                      "level": 3
+                    },
+                    {
+                      "_meta": { "class": "PersonLevel" },
+                      "person": {
+                        "_links": {
+                          "self": { "href": "/v1/person/d428b954-e867-11e4-b02c-1681e6b88ec1" }
+                        },
+                        "_meta": { "class": "Person" },
+                        "name": "Miles Davis 2"
+                      },
+                      "level": 2
+                    }
+                  ]
+                }
+              },
+              "_id": "88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1",
+              "name": "Android"
+            }
+
+### Update Skill [PUT]
+
+### Delete Skill [DELETE]
