@@ -1,5 +1,6 @@
 var test = require('tape');
-var BaseModel = require('../lib/base-model');
+var BaseModel = require('../index').BaseModel;
+var Lance = require('../index').Lance;
 
 var json = {
   "_links": {
@@ -50,11 +51,13 @@ var json = {
 }
 
 test('BaseModel Class', function(t) {
-  t.plan(7);
+  t.plan(6);
+
+  var lance = new Lance({baseUrl: 'foobar'});
 
   t.ok(typeof BaseModel === 'function', 'is an function');
 
-  var model = new BaseModel(json);
+  var model = new BaseModel(json, lance);
 
   t.ok(model.totalCount() === 26, 'totalCount() works');
 
@@ -65,6 +68,4 @@ test('BaseModel Class', function(t) {
   t.ok(model.get('_links.self.href') === '/orders', 'get() works');
 
   t.ok(model.meta('ordersProcessed') === 13, 'meta() works');
-
-  t.deepEqual(model.collection(), json.orderList, 'collection() works');
 });

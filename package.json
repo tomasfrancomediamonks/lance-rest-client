@@ -27,8 +27,10 @@
     "drakonian": "^1.0.0"
   },
   "dependencies": {
+    "clone": "^1.0.2",
     "dotty": "0.0.2",
     "es6-promise": "^2.1.0",
-    "isomorphic-fetch": "^2.0.2"
+    "isomorphic-fetch": "^2.0.2",
+    "string-template": "^0.2.0"
   }
 }
