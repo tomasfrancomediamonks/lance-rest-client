@@ -14,7 +14,7 @@ test('e2e', function(t) {
 });
 
 function start(t) {
-  t.plan(11);
+  t.plan(16);
 
   var lance = new Lance({
     baseUrl: 'http://localhost:' + DRAKONIAN_PORT,
@@ -37,8 +37,15 @@ function start(t) {
     .then(function(person) {
       t.ok(person.get('name') === 'Miles Davis', 'person name');
       t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email');
-      t.ok(person.meta('skillLevels').collection().length === 2, 'collection');
+      var skillLevels = person.meta('skillLevels');
+      t.ok(typeof skillLevels === 'object');
+      t.ok(skillLevels.collection().length === 2, 'collection');
       t.ok(person.isDirty === false, 'isDirty');
+      t.ok(typeof skillLevels.set === 'function');
+      t.ok(skillLevels._parent);
+      skillLevels.set('_meta.foo', 3);
+      t.ok(skillLevels.get('_meta.foo') === 3);
+      t.ok(person.get('_meta.skillLevels._meta.foo') === 3);
       person.set('name', 'Foo Bar');
       t.ok(person.isDirty === true, 'isDirty');
       t.ok(person.get('name') === 'Foo Bar', 'get');
@@ -58,9 +65,10 @@ function start(t) {
     })
     .then(function() {
       drakonian.close();
-    });
+    })
     .catch(function(e) {
-      t.comment('' + e);
+      t.comment('ERROR');
+      t.comment(e.stack);
       drakonian.close();
     });
 }
