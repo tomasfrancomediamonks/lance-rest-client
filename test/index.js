@@ -4,9 +4,10 @@ var Lance = require('../index').Lance;
 
 var DRAKONIAN_PORT = 4000;
 
-var throwErr = function(err) { throw err; }
-
 test('e2e', function(t) {
+  drakonian.addHandler('DELETE', '/v1/person/{id}', function(req, res) {
+    
+  });
   drakonian.start('./test/server.apib', DRAKONIAN_PORT, function() {
    start(t); 
   });
@@ -24,15 +25,15 @@ function start(t) {
     .then(function(metaModel) {
       t.ok(typeof metaModel === 'object', 'is object');
       return metaModel.fetch('people');
-    }, throwErr)
+    })
     .then(function(people) {
       t.ok(typeof people === 'object', 'is object');
       t.ok(people.collection().length === people.meta('pageCount'), 'pageCount');
       return people.collection()[1];
-    }, throwErr)
+    })
     .then(function(person) {
       return person.fetchMore();
-    }, throwErr)
+    })
     .then(function(person) {
       t.ok(person.get('name') === 'Miles Davis', 'person name');
       t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email');
@@ -43,19 +44,23 @@ function start(t) {
       t.ok(person.get('name') === 'Foo Bar', 'get');
       p1 = person;
       return person.save();
-    }, throwErr)
+    })
     .then(function(newPerson) {
       t.ok(newPerson == p1, 'equality');
       return true;
-    }, throwErr)
+    })
     .then(function() {
       return lance._metaModel.fetch('person', {uuid: 13123123123});
     })
     .then(function(person) {
-      drakonian.close();
       t.ok(person.get('name') === 'Miles Davis');
       return person.delete();
     })
     .then(function() {
-    }, throwErr);
+      drakonian.close();
+    });
+    .catch(function(e) {
+      t.comment('' + e);
+      drakonian.close();
+    });
 }
