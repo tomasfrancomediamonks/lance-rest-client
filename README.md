@@ -10,7 +10,7 @@
 var lance = require('lance');
 
 var lance = new Lance({
-  baseURL: 'http://apiserver:3000',
+  baseUrl: 'http://apiserver:3000',
   rootPath: '/v1'
 });
 
@@ -209,33 +209,33 @@ person.more().then(function(person) {
 
 ## Lance API
 
-### constructor(options)
+### constructor({baseUrl, rooPath, modelMap})
 
-Creates a lance instance. Options are:
-
-* `baseURL` (mandatory): base URL for the server. i.e. `http://apiserver:3000`
+* `baseUrl` (mandatory): base URL for the server. i.e. `http://apiserver:3000`
 * `rootPath` (mandatory): resource path for Lance's root document. i.e. `/`
 * `modelMap` (optional): an object mapping Lance class types identifiers to JavaScript classes (instances
   of BaseModel)
 
-### initialize()
+### initialize():Promise
 
-Initializes a lance instance. Returns a promise that is trigered when the client has fully initialized.
+GETs and returns the root document as a Model. Binds root document to this Lance instance.
 
 ### metaModel()
 
-Returns the meta model Lance object for this client instance.
+Returns the root document for this Lance instance as a Model.
 
-### fetch(linkName, data)
+### fetch({linkName, params, headers}):Promise
 
-Fetches the link specified by `linkName`. Optionally use the object sent as `data` to proceed with
-URI template preparation. Returns a promise that is triggered with the object just fetched.
+* `linkName` (mandatory): the URI to GET from. must be a valid member of the `_links` object.
+* `params` (optional): URI templating parameters.
+* `headers` (optional): HTTP headers.
 
-### create(linkName, data)
+### create({linkName, params, data, headers}):Promise
 
-Creates (`POST`) a resource to `linkName`. Data is an object representing the entity to be created.
-Returns a promise that is triggered with the object that was just created.
-
+* `linkName` (mandatory): the URI to PUT to. Must be a valid member of the `_links` object.
+* `data` (mandatory): object representing the entity to be created.
+* `params` (optional): URI templating parameters.
+* `headers` (optional): HTTP headers.
 
 ## Base Model API
 
