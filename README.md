@@ -51,12 +51,13 @@ var lance = new Lance({
 
 lance.initialize()
   .then(function() {
-    lance.fetch('people').then(function(people) {
-      for (var personIdx in people) {
-        var person = people.collection()[personIdx]; 
-        console.log(person.get('name'), person.skillCount());
-      }
-    });
+    return lance.fetch('people');
+  })
+  .then(function(people) {
+    for (var personIdx in people) {
+      var person = people.collection()[personIdx]; 
+      console.log(person.get('name'), person.skillCount());
+    }
   });
 ```
 
@@ -120,8 +121,7 @@ What's happening under the hood:
 ## Updating a resource
 
 ```javascript
-lance.fetch({
-  linkName: 'person',
+lance.fetch('person', {
   params: {
     uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'
   }
@@ -129,9 +129,10 @@ lance.fetch({
   .then(function(person) {
       console.log('Previous name:', person.get('name'));
       person.set('name', 'New Person Name');
-      person.save().then(function(updatedPerson) {
-          console.log('Confirmed name:', updatedPerson.get('name'));
-      });
+      return person.save();
+  })
+  .then(function(updatedPerson) {
+    console.log('Confirmed name:', updatedPerson.get('name'));
   });
 ```
 
@@ -144,9 +145,10 @@ lance.fetch('person', {
   }
 })
   .then(function(person) {
-    person.delete().then(function() {
-      console.log('Person deleted');
-    });
+    return person.delete();
+  })
+  .then(function() {
+    console.log('Person deleted');
   });
 ```
 
@@ -196,14 +198,16 @@ lance.fetch('people')
     console.log(people.pageCount());
     
     // Fetches new page and populates the page collection
-    console.log(people.nextPage().then(function(people) {
-      console.log(people.currentPage());
-    }));
-  
+    return people.nextPage();
+  })
+  .then(people) {
+    console.log(people.currentPage());
+
     // Fetches the previous page and populates the page collection
-    console.log(people.prevPage().then(function(people) {
-      console.log(people.currentPage());
-    }));
+    return people.prevPage();
+  })
+  .then(people) {
+    console.log(people.currentPage());
   });
 ```
 
@@ -222,7 +226,6 @@ As per Lance-REST spec, sometimes a resource might have been represented in an p
 order to fetch it, let's assume `person` is already a partial representation of a person:
 
 ```javascript
-
 // i.e. undefined
 console.log(person.get('email'));
 
