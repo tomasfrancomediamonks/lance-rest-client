@@ -241,61 +241,57 @@ Returns the root document for this Lance instance as a Model.
 
 ### get(field)
 
-Getter for the internal representation of the `field`. 
+Getter for the internal representation of the `field` (can be dotpath).
 
 ### set(field, value)
 
-Setter for the internal representation of the `field` with `value`.
+Setter for the internal representation of the `field` with `value` (can be dotpath).
 
 ### meta(field)
 
-Getter for meta fields (inside `_meta` nodes).
+Getter for meta fields (inside `_meta` nodes) (can be dotpath).
 
-### fetch(linkName)
+### fetch(linkName):Promise
 
-Similar to `lance.fetch(linkName)` with exception of not having the option of sending data (URI template).
-It will return a promise that is triggered when the link represented by `linkName` returns its object.
+Similar to `lance.fetch(linkName)` with exception of not having the option of sending `params` (URI template).
 
-### save()
+### save():Promise
 
-Saves the current instance (`PUT`). Returns a promise with the updated resource. Important: the
+Saves the current instance (`PUT`). Returns the updated resource. Important: the
 resource must have been fetched before being saved.
 
-### delete()
+### delete():Promise
 
-Deletes the current instance (`DELETE`). Returns a promise that is triggered when the entry was 
-successfully deleted. Important: the resource must have been fetched before being saved.
+Deletes the current instance (`DELETE`). Returns Model of server response. Important: the resource must have been fetched before being deleted.
 
 ### collection()
 
-If the object is identified as a collection, this method returns the current page's collection. Otherwise
-it returns `undefined`.
+If the object is identified as a collection, this method returns the current page's collection's array. Otherwise
+it returns an empty array.
 
 ### totalCount()
 
 If the object is identified as a collection, this method returns the total amount of entries
 for this collection beyond the boundaries of the current page (i.e. a `collection().length` might
 be `20` while a `totalCount()` might be `400` - in practice it means that the current page has 20
-entries but the collection is 400). Otherwise it returns `undefined`.
+entries but the collection is 400). Otherwise it returns `0`.
 
 ### currentPage()
 
 If the object is identified as a collection, this method returns the number of the current page
-(1-based). Otherwise it returns `undefined`.
+(1-based). Otherwise it returns `0`.
 
 ### pageCount()
 
 If the object is identified as a collection, this method returns the amount of pages in this collection.
-Otherwise it returns `undefined`.
+Otherwise it returns `0`.
 
-### nextPage()
-
-If the object is identified as a collection, this method returns a promise that will get resolved
-with the next page of the collection. Otherwise it returs `undefined`. If there's no next page the
-response is `[]`.
-
-### prevPage()
+### nextPage():Promise
 
 If the object is identified as a collection, this method returns a promise that will get resolved
-with the previous page of the collection. Otherwise it returs `undefined`. If there's no next page the
-response is `[]`.
+with the next page of the collection. Otherwise it returns `false`
+
+### prevPage():Promise
+
+If the object is identified as a collection, this method returns a promise that will get resolved
+with the previous page of the collection. Otherwise it returns `false`
