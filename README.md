@@ -15,7 +15,7 @@ var lance = new Lance({
 });
 
 lance.initialize().then(function() {
-  lance.fetch('people').then(function(people) {
+  lance.fetch({linkName: 'people'}).then(function(people) {
     for (var personIdx in people) {
       var person = people.collection()[personIdx]; 
       console.log(person.get('name'));
@@ -50,7 +50,7 @@ var lance = new Lance({
 });
 
 lance.initialize().then(function() {
-  lance.fetch('people').then(function(people) {
+  lance.fetch({linkName: 'people'}).then(function(people) {
     for (var personIdx in people) {
       var person = people.collection()[personIdx]; 
       console.log(person.get('name'), person.skillCount());
@@ -98,9 +98,15 @@ lance.initialize().then(function() {
 ## Sending parameters to requests
 
 ```javascript
-lance.fetch('person', { uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'} ).then(function(person) {
-  console.log(person.get('name'));
-});
+lance.fetch({
+  linkName: 'person',
+  params: { 
+    uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'
+  }
+})
+  .then(function(person) {
+    console.log(person.get('name'));
+  });
 ```
 
 What's happening under the hood:
@@ -113,34 +119,50 @@ What's happening under the hood:
 ## Updating a resource
 
 ```javascript
-lance.fetch('person', { uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'} ).then(function(person) {
-  console.log('Previous name:', person.get('name'));
-  person.set('name', 'New Person Name');
-  person.save().then(function(updatedPerson) {
-    console.log('Confirmed name:', updatedPerson.get('name'));
+lance.fetch({
+  linkName: 'person',
+  params: {
+    uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'
+  }
+})
+  .then(function(person) {
+      console.log('Previous name:', person.get('name'));
+      person.set('name', 'New Person Name');
+      person.save().then(function(updatedPerson) {
+          console.log('Confirmed name:', updatedPerson.get('name'));
+      });
   });
-});
 ```
 
 ## Deleting a resource
 
 ```javascript
-lance.fetch('person', { uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'} ).then(function(person) {
-  person.delete().then(function() {
-    console.log('Person deleted');
+lance.fetch({
+  linkName: 'person',
+  params: {
+    uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'
+  }
+})
+  .then(function(person) {
+    person.delete().then(function() {
+      console.log('Person deleted');
+    });
   });
-});
 ```
 
 ## Adding a resource
 
 ```javascript
-lance.create('people', {
-  name: 'Miles Davis',
-  email: 'miles.davis@me.com'
-}).then(function(person) {
-  console.log(person.get('_id'), person.get('name'));
-});
+lance.create({
+  linkName: 'people',
+  data: {
+    name: 'Miles Davis',
+    email: 'miles.davis@me.com'
+  }
+})
+  .then(function(person) {
+    console.log(person.get('_id'), person.get('name'));
+  });
 ```
 
 or, using a `Person` class:
@@ -151,15 +173,19 @@ var miles = new Person({
   email: 'miles.davis@me.com'
 });
 
-lance.create('people', miles).then(function(person) {
-  console.log(person.get('_id'), person.get('name'));
-});
+lance.create({
+  linkName: 'people',
+  data: miles
+})
+  .then(function(person) {
+    console.log(person.get('_id'), person.get('name'));
+  });
 ```
 
 ## Dealing with collections
 
 ```javascript
-lance.fetch('people').then(function(people) {
+lance.fetch({linkName: 'people'}).then(function(people) {
 
   // Prints the length of the current page
   console.log(people.collection().length);
@@ -201,7 +227,7 @@ order to fetch it, let's assume `person` is already a partial representation of 
 // i.e. undefined
 console.log(person.get('email'));
 
-person.more().then(function(person) {
+person.fetchMore().then(function(person) {
   // i.e. miles.davis@me.com
   console.log(person.get('email'));
 });
@@ -251,16 +277,23 @@ Setter for the internal representation of the `field` with `value` (can be dotpa
 
 Getter for meta fields (inside `_meta` nodes) (can be dotpath).
 
-### fetch(linkName):Promise
+### fetch({linkName, headers}):Promise
+
+* `linkName` (mandatory): the URI to GET from. Must be a valid member of the `_links` object.
+* `headers` (optional): HTTP headers.
 
 Similar to `lance.fetch(linkName)` with exception of not having the option of sending `params` (URI template).
 
-### save():Promise
+### save({headers}):Promise
+
+* `headers` (optional): HTTP headers.
 
 Saves the current instance (`PUT`). Returns the updated resource. Important: the
 resource must have been fetched before being saved.
 
-### delete():Promise
+### delete({headers}):Promise
+
+* `headers` (optional): HTTP headers.
 
 Deletes the current instance (`DELETE`). Returns Model of server response. Important: the resource must have been fetched before being deleted.
 
