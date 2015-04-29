@@ -15,7 +15,7 @@ var lance = new Lance({
 });
 
 lance.initialize().then(function() {
-  lance.fetch({linkName: 'people'}).then(function(people) {
+  lance.fetch('people').then(function(people) {
     for (var personIdx in people) {
       var person = people.collection()[personIdx]; 
       console.log(person.get('name'));
@@ -49,14 +49,15 @@ var lance = new Lance({
   }
 });
 
-lance.initialize().then(function() {
-  lance.fetch({linkName: 'people'}).then(function(people) {
-    for (var personIdx in people) {
-      var person = people.collection()[personIdx]; 
-      console.log(person.get('name'), person.skillCount());
-    }
+lance.initialize()
+  .then(function() {
+    lance.fetch('people').then(function(people) {
+      for (var personIdx in people) {
+        var person = people.collection()[personIdx]; 
+        console.log(person.get('name'), person.skillCount());
+      }
+    });
   });
-});
 ```
 
 This snippet is assuming that `./models/person` contains a method such as:
@@ -90,16 +91,16 @@ var lance = new Lance({
   }
 });
 
-lance.initialize().then(function() {
-  // Your code here
-});
+lance.initialize()
+  .then(function() {
+    // Your code here
+  });
 ```
 
 ## Sending parameters to requests
 
 ```javascript
-lance.fetch({
-  linkName: 'person',
+lance.fetch('person', {
   params: { 
     uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'
   }
@@ -137,8 +138,7 @@ lance.fetch({
 ## Deleting a resource
 
 ```javascript
-lance.fetch({
-  linkName: 'person',
+lance.fetch('person', {
   params: {
     uuid: '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1'
   }
@@ -153,8 +153,7 @@ lance.fetch({
 ## Adding a resource
 
 ```javascript
-lance.create({
-  linkName: 'people',
+lance.create('people', {
   data: {
     name: 'Miles Davis',
     email: 'miles.davis@me.com'
@@ -173,8 +172,7 @@ var miles = new Person({
   email: 'miles.davis@me.com'
 });
 
-lance.create({
-  linkName: 'people',
+lance.create('people', {
   data: miles
 })
   .then(function(person) {
@@ -185,27 +183,28 @@ lance.create({
 ## Dealing with collections
 
 ```javascript
-lance.fetch({linkName: 'people'}).then(function(people) {
+lance.fetch('people')
+  .then(function(people) {
 
-  // Prints the length of the current page
-  console.log(people.collection().length);
-
-  // Prints total count of entries, current page number
-  // and page count
-  console.log(people.totalCount());
-  console.log(people.currentPage());
-  console.log(people.pageCount());
+    // Prints the length of the current page
+    console.log(people.collection().length);
   
-  // Fetches new page and populates the page collection
-  console.log(people.nextPage().then(function(people) {
+    // Prints total count of entries, current page number
+    // and page count
+    console.log(people.totalCount());
     console.log(people.currentPage());
-  }));
-
-  // Fetches the previous page and populates the page collection
-  console.log(people.prevPage().then(function(people) {
-    console.log(people.currentPage());
-  }));
-});
+    console.log(people.pageCount());
+    
+    // Fetches new page and populates the page collection
+    console.log(people.nextPage().then(function(people) {
+      console.log(people.currentPage());
+    }));
+  
+    // Fetches the previous page and populates the page collection
+    console.log(people.prevPage().then(function(people) {
+      console.log(people.currentPage());
+    }));
+  });
 ```
 
 What's happening under the hood:
@@ -227,10 +226,11 @@ order to fetch it, let's assume `person` is already a partial representation of 
 // i.e. undefined
 console.log(person.get('email'));
 
-person.fetchMore().then(function(person) {
-  // i.e. miles.davis@me.com
-  console.log(person.get('email'));
-});
+person.fetchMore()
+  .then(function(person) {
+    // i.e. miles.davis@me.com
+    console.log(person.get('email'));
+  });
 ```
 
 ## Lance API
@@ -250,13 +250,13 @@ GETs and returns the root document as a Model. Binds root document to this Lance
 
 Returns the root document for this Lance instance as a Model.
 
-### fetch({linkName, params, headers}):Promise
+### fetch(linkName, {params, headers}):Promise
 
 * `linkName` (mandatory): the URI to GET from. must be a valid member of the `_links` object.
 * `params` (optional): URI templating parameters.
 * `headers` (optional): HTTP headers.
 
-### create({linkName, params, data, headers}):Promise
+### create(linkName, {params, data, headers}):Promise
 
 * `linkName` (mandatory): the URI to PUT to. Must be a valid member of the `_links` object.
 * `data` (mandatory): object representing the entity to be created.
@@ -277,12 +277,9 @@ Setter for the internal representation of the `field` with `value` (can be dotpa
 
 Getter for meta fields (inside `_meta` nodes) (can be dotpath).
 
-### fetch({linkName, headers}):Promise
+### fetch(linkName, {headers, params}):Promise
 
-* `linkName` (mandatory): the URI to GET from. Must be a valid member of the `_links` object.
-* `headers` (optional): HTTP headers.
-
-Similar to `lance.fetch(linkName)` with exception of not having the option of sending `params` (URI template).
+Same as `lance.fetch`, except _links[linkName] comes from Model instance.
 
 ### save({headers}):Promise
 
@@ -291,7 +288,7 @@ Similar to `lance.fetch(linkName)` with exception of not having the option of se
 Saves the current instance (`PUT`). Returns the updated resource. Important: the
 resource must have been fetched before being saved.
 
-### delete({headers}):Promise
+### delete({headers}):Promfise
 
 * `headers` (optional): HTTP headers.
 
@@ -300,7 +297,7 @@ Deletes the current instance (`DELETE`). Returns Model of server response. Impor
 ### collection()
 
 If the object is identified as a collection, this method returns the current page's collection's array. Otherwise
-it returns an empty array.
+it returns `[]`.
 
 ### totalCount()
 
