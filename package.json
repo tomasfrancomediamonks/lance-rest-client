@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "tape test/*.js | faucet",
+    "test": "tape test/*.js",
     "watch": "jung -D node_modules -- npm test"
   },
   "repository": {
@@ -21,10 +21,9 @@
   },
   "homepage": "https://github.com/workco/lance-rest-client",
   "devDependencies": {
-    "faucet": "0.0.1",
+    "drakonian": "^1.0.0",
     "jung": "^2.0.2",
-    "tape": "^4.0.0",
-    "drakonian": "^1.0.0"
+    "tape": "^4.0.0"
   },
   "dependencies": {
     "clone": "^1.0.2",

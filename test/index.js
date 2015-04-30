@@ -5,12 +5,9 @@ var Lance = require('../index').Lance;
 var DRAKONIAN_PORT = 4000;
 
 test('e2e', function(t) {
-  drakonian.addHandler('DELETE', '/v1/person/{id}', function(req, res) {
-    
-  });
   drakonian.start('./test/server.apib', DRAKONIAN_PORT, function() {
    start(t); 
-  });
+  }, {silent: true});
 });
 
 function start(t) {
@@ -57,7 +54,7 @@ function start(t) {
       return true;
     })
     .then(function() {
-      return lance._metaModel.fetch('person', {uuid: 13123123123});
+      return lance._metaModel.fetch('person', {params: {uuid: 13123123123}});
     })
     .then(function(person) {
       t.ok(person.get('name') === 'Miles Davis');
@@ -67,8 +64,6 @@ function start(t) {
       drakonian.close();
     })
     .catch(function(e) {
-      t.comment('ERROR');
-      t.comment(e.stack);
       drakonian.close();
     });
 }
