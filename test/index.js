@@ -5,18 +5,37 @@ var Lance = require('../index').Lance;
 var DRAKONIAN_PORT = 4000;
 
 test('e2e', function(t) {
+  t.plan(25);
   drakonian.start('./test/server.apib', DRAKONIAN_PORT, function() {
-   start(t); 
+    drakonian.addHandler('GET', '/v1/person/{uuid}', function(req, res, accept, action) {
+      var response = drakonian.findResponse(/200/, accept, action);
+      t.ok(req.params.uuid);
+      res.send(JSON.parse(response.body));
+    });
+    drakonian.addHandler('PUT', '/v1/person/{uuid}', function(req, res, accept, action) {
+      var response = drakonian.findResponse(/200/, accept, action);
+      t.ok(req.params.uuid);
+      t.ok(typeof req.body === 'object');
+      t.ok(req.body.name === 'Foo Bar');
+      res.send(JSON.parse(response.body));
+    });
+    drakonian.addHandler('POST', '/v1/people', function(req, res, accept, action) {
+      var response = drakonian.findResponse(/200/, accept, action);
+      t.ok(typeof req.body === 'object');
+      t.ok(req.body.name === 'Some Name');
+      res.send(JSON.parse(response.body));
+    });
+    start(t);
   }, {silent: true});
 });
 
 function start(t) {
-  t.plan(16);
-
   var lance = new Lance({
     baseUrl: 'http://localhost:' + DRAKONIAN_PORT,
     rootPath: '/v1'
   });
+  
+  var p1;
 
   lance.initialize()
     .then(function(metaModel) {
@@ -54,16 +73,32 @@ function start(t) {
       return true;
     })
     .then(function() {
-      return lance._metaModel.fetch('person', {params: {uuid: 13123123123}});
+      return lance.fetch('person', {
+        params: {
+          uuid: 12345
+        }
+      });
     })
     .then(function(person) {
       t.ok(person.get('name') === 'Miles Davis');
       return person.delete();
     })
+    .then(function(res) {
+      t.ok(res.success === true);
+      return lance.create('people', {
+        data: {
+          name: 'Some Name'
+        }
+      });
+    })
+    .then(function(newPerson) {
+      t.ok(newPerson.get('_id') === '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1');
+    })
     .then(function() {
       drakonian.close();
     })
     .catch(function(e) {
+      console.log('ERROR ', e);
       drakonian.close();
     });
 }
