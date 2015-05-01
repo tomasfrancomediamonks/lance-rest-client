@@ -2,7 +2,7 @@
 
 ## Installing
 
-    npm install lance --save
+    npm install lance-rest-client --save
 
 ## Simple usage example
 
