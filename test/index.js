@@ -1,11 +1,13 @@
 var test = require('tape');
 var drakonian = require('drakonian');
 var Lance = require('../index').Lance;
+var BaseModel = require('../lib/base-model');
+var PeopleCollection = require('./models/people-collection');
 
 var DRAKONIAN_PORT = 4000;
 
 test('e2e', function(t) {
-  t.plan(25);
+  t.plan(27);
   drakonian.start('./test/server.apib', DRAKONIAN_PORT, function() {
     drakonian.addHandler('GET', '/v1/person/{uuid}', function(req, res, accept, action) {
       var response = drakonian.findResponse(/200/, accept, action);
@@ -32,7 +34,10 @@ test('e2e', function(t) {
 function start(t) {
   var lance = new Lance({
     baseUrl: 'http://localhost:' + DRAKONIAN_PORT,
-    rootPath: '/v1'
+    rootPath: '/v1',
+    modelMap: {
+      PeopleCollection: PeopleCollection
+    }
   });
   
   var p1;
@@ -44,6 +49,8 @@ function start(t) {
     })
     .then(function(people) {
       t.ok(typeof people === 'object', 'is object');
+      t.ok(people instanceof PeopleCollection, 'people should be instanceof PeopleCollection');
+      t.ok(people.concatNames() === 'Miles Davis, Miles Davis, Miles Davis', 'instance method should work');
       t.ok(people.collection().length === people.meta('pageCount'), 'pageCount');
       return people.collection()[1];
     })
