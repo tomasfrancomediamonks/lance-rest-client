@@ -63,14 +63,14 @@ function start(t) {
       var skillLevels = person.meta('skillLevels');
       t.ok(typeof skillLevels === 'object');
       t.ok(skillLevels.collection().length === 2, 'collection');
-      t.ok(person.isDirty === false, 'isDirty');
+      t.ok(person.isDirty() === false, 'isDirty');
       t.ok(typeof skillLevels.set === 'function');
       t.ok(skillLevels._parent);
       skillLevels.set('_meta.foo', 3);
       t.ok(skillLevels.get('_meta.foo') === 3);
       t.ok(person.get('_meta.skillLevels._meta.foo') === 3);
       person.set('name', 'Foo Bar');
-      t.ok(person.isDirty === true, 'isDirty');
+      t.ok(person.isDirty() === true, 'isDirty');
       t.ok(person.get('name') === 'Foo Bar', 'get');
       p1 = person;
       return person.save();
