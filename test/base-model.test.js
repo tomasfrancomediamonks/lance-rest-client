@@ -65,6 +65,7 @@ test('BaseModel Class', function(t) {
 
   t.ok(model.pageCount() === 9, 'pageCount() works');
 
+  console.log(model.get('_links'));
   t.ok(model.get('_links.self.href') === '/orders', 'get() works');
 
   t.ok(model.meta('ordersProcessed') === 13, 'meta() works');
