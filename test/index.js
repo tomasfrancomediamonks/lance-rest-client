@@ -16,6 +16,7 @@ test('e2e', function(t) {
     });
     drakonian.addHandler('PUT', '/v1/person/{uuid}', function(req, res, accept, action) {
       var response = drakonian.findResponse(/200/, accept, action);
+      req.body = JSON.parse(req.body.toString());
       t.ok(req.params.uuid);
       t.ok(typeof req.body === 'object');
       t.ok(req.body.name === 'Foo Bar');
@@ -23,6 +24,7 @@ test('e2e', function(t) {
     });
     drakonian.addHandler('POST', '/v1/people', function(req, res, accept, action) {
       var response = drakonian.findResponse(/200/, accept, action);
+      req.body = JSON.parse(req.body.toString());
       t.ok(typeof req.body === 'object');
       t.ok(req.body.name === 'Some Name');
       res.send(JSON.parse(response.body));
