@@ -46,39 +46,39 @@ function start(t) {
 
   lance.initialize()
     .then(function(metaModel) {
-      t.ok(typeof metaModel === 'object', 'is object');
+      t.ok(typeof metaModel === 'object', 'should be an object');
       return metaModel.fetch('people');
     })
     .then(function(people) {
-      t.ok(typeof people === 'object', 'is object');
+      t.ok(typeof people === 'object', 'should be an object');
       t.ok(people instanceof PeopleCollection, 'people should be instanceof PeopleCollection');
       t.ok(people.concatNames() === 'Miles Davis, Miles Davis, Miles Davis', 'instance method should work');
-      t.ok(people.collection().length === people.meta('pageCount'), 'pageCount');
+      t.ok(people.collection().length === people.meta('pageCount'), 'pageCount should work');
       return people.collection()[1];
     })
     .then(function(person) {
       return person.fetchMore();
     })
     .then(function(person) {
-      t.ok(person.get('name') === 'Miles Davis', 'person name');
-      t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email');
+      t.ok(person.get('name') === 'Miles Davis', 'person name should be Miles Davis');
+      t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email should be miles.davis@gmail.com');
       var skillLevels = person.meta('skillLevels');
-      t.ok(typeof skillLevels === 'object');
-      t.ok(skillLevels.collection().length === 2, 'collection');
-      t.ok(person.isDirty() === false, 'isDirty');
-      t.ok(typeof skillLevels.set === 'function');
-      t.ok(skillLevels._parent);
+      t.ok(typeof skillLevels === 'object', 'should be an object');
+      t.ok(skillLevels.collection().length === 2, 'collection length should be 2');
+      t.ok(person.isDirty() === false, 'should not be dirty');
+      t.ok(typeof skillLevels.set === 'function',  'should be a function');
+      t.ok(skillLevels._parent, 'should have a parent');
       skillLevels.set('_meta.foo', 3);
-      t.ok(skillLevels.get('_meta.foo') === 3);
-      t.ok(person.get('_meta.skillLevels._meta.foo') === 3);
+      t.ok(skillLevels.get('_meta.foo') === 3, 'should be 3');
+      t.ok(person.get('_meta.skillLevels._meta.foo') === 3, 'should be 3');
       person.set('name', 'Foo Bar');
-      t.ok(person.isDirty() === true, 'isDirty');
-      t.ok(person.get('name') === 'Foo Bar', 'get');
+      t.ok(person.isDirty() === true, 'should be dirty');
+      t.ok(person.get('name') === 'Foo Bar', 'should be Foo Bar');
       p1 = person;
       return person.save();
     })
     .then(function(newPerson) {
-      t.ok(newPerson == p1, 'equality');
+      t.ok(newPerson == p1, 'should be the same object');
       return true;
     })
     .then(function() {
@@ -89,7 +89,7 @@ function start(t) {
       });
     })
     .then(function(person) {
-      t.ok(person.get('name') === 'Miles Davis');
+      t.ok(person.get('name') === 'Miles Davis', 'name should be Miles Davis');
       return person.delete();
     })
     .then(function(res) {
@@ -101,7 +101,7 @@ function start(t) {
       });
     })
     .then(function(newPerson) {
-      t.ok(newPerson.get('_id') === '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1');
+      t.ok(newPerson.get('_id') === '88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1', 'id should be 88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1');
     })
     .then(function() {
       drakonian.close();
