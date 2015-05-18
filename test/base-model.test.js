@@ -67,5 +67,5 @@ test('BaseModel Class', function(t) {
 
   t.ok(model.get('_links.self.href') === '/orders', 'get() works');
 
-  t.ok(model.meta('ordersProcessed') === 13, 'meta() works');
+  t.ok(model.get('_meta.ordersProcessed') === 13, 'get _meta works');
 });

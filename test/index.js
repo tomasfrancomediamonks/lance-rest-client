@@ -59,7 +59,7 @@ function start(t) {
       t.ok(typeof people === 'object', 'should be an object');
       t.ok(people instanceof PeopleCollection, 'people should be instanceof PeopleCollection');
       t.ok(people.concatNames() === 'Miles Davis, Miles Davis, Miles Davis', 'instance method should work');
-      t.ok(people.collection().length === people.meta('pageCount'), 'pageCount should work');
+      t.ok(people.collection().length === people.get('_meta.pageCount'), 'pageCount should work');
       return people.collection()[1];
     })
     .then(function(person) {
@@ -68,7 +68,7 @@ function start(t) {
     .then(function(person) {
       t.ok(person.get('name') === 'Miles Davis', 'person name should be Miles Davis');
       t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email should be miles.davis@gmail.com');
-      var skillLevels = person.meta('skillLevels');
+      var skillLevels = person.get('_meta.skillLevels');
       t.ok(typeof skillLevels === 'object', 'should be an object');
       t.ok(skillLevels.collection().length === 2, 'collection length should be 2');
       t.ok(person.isDirty() === false, 'should not be dirty');
@@ -118,7 +118,7 @@ function start(t) {
       t.ok(typeof people === 'object', 'should be an object');
       t.ok(people instanceof BaseModel, 'people should be instanceof BaseModel');
       t.ok(typeof people.concatNames !== 'function', 'instance method should not work');
-      t.ok(people.collection().length === people.meta('pageCount'), 'pageCount should work');
+      t.ok(people.collection().length === people.get('_meta.pageCount'), 'pageCount should work');
       return people.collection()[1];
     })
     .then(function(person) {
@@ -127,7 +127,7 @@ function start(t) {
     .then(function(person) {
       t.ok(person.get('name') === 'Miles Davis', 'person name should be Miles Davis');
       t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email should be miles.davis@gmail.com');
-      var skillLevels = person.meta('skillLevels');
+      var skillLevels = person.get('_meta.skillLevels');
       t.ok(typeof skillLevels === 'object', 'should be an object');
       t.ok(skillLevels.collection().length === 2, 'collection length should be 2');
       t.ok(person.isDirty() === false, 'should not be dirty');
