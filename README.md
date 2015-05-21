@@ -42,7 +42,7 @@ var Person = require('./models/person');
 var lance = require('lance');
 
 var lance = new Lance({
-  baseURL: 'http://apiserver:3000',
+  baseUrl: 'http://apiserver:3000',
   rootPath: '/v1',
   modelMap: {
     Person: Person
@@ -77,7 +77,7 @@ The following example maps all resources in the test:
 var lance = require('lance');
 
 var lance = new Lance({
-  baseURL: 'http://apiserver:3000',
+  baseUrl: 'http://apiserver:3000',
   rootPath: '/v1',
   modelMap: {
     Metadata: Metadata,
@@ -240,7 +240,7 @@ person.fetchMore()
 
 ### constructor({baseUrl, rooPath, modelMap})
 
-* `baseUrl` (mandatory): base URL for the server. i.e. `http://apiserver:3000`
+* `baseUrl` (mandatory): base Url for the server. i.e. `http://apiserver:3000`
 * `rootPath` (mandatory): resource path for Lance's root document. i.e. `/`
 * `modelMap` (optional): an object mapping Lance class types identifiers to JavaScript classes (instances
   of BaseModel)
