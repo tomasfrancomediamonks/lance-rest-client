@@ -8,7 +8,6 @@ var json = {
     "next": { "href": "/orders?page=2" }
   },
   "_meta": {
-    "collectionNode": "orderList",
     "totalCount": 26,
     "currentPage": 1,
     "pageCount": 9,
@@ -16,7 +15,7 @@ var json = {
     "ordersUnderReview": 5,
     "ordersPending": 8
   },
-  "orderList": [
+  "_collection": [
     {
       "_links": {
         "self": { "href": "/order/88b4ddfe-e3c1-11e4-8a00-1681e6b88ec1" }

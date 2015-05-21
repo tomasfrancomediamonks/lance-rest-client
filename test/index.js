@@ -70,6 +70,7 @@ function start(t) {
       t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email should be miles.davis@gmail.com');
       var skillLevels = person.get('_meta.skillLevels');
       t.ok(typeof skillLevels === 'object', 'should be an object');
+      console.log(skillLevels)
       t.ok(skillLevels.collection().length === 2, 'collection length should be 2');
       t.ok(person.isDirty() === false, 'should not be dirty');
       t.ok(typeof skillLevels.set === 'function',  'should be a function');
@@ -129,6 +130,7 @@ function start(t) {
       t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email should be miles.davis@gmail.com');
       var skillLevels = person.get('_meta.skillLevels');
       t.ok(typeof skillLevels === 'object', 'should be an object');
+      console.log(skillLevels);
       t.ok(skillLevels.collection().length === 2, 'collection length should be 2');
       t.ok(person.isDirty() === false, 'should not be dirty');
       t.ok(typeof skillLevels.set === 'function',  'should be a function');
