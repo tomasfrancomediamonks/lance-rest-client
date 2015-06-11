@@ -4,7 +4,7 @@ var Lance = require('../index').Lance;
 var BaseModel = require('../lib/base-model');
 var PeopleCollection = require('./models/people-collection');
 
-var DRAKONIAN_PORT = 4000;
+var DRAKONIAN_PORT = 4002;
 
 test('e2e', function(t) {
   t.plan(53);
@@ -50,7 +50,7 @@ function start(t) {
   var p1;
   var p2;
 
-  lance.initialize()
+  var p = lance.initialize()
     .then(function(metaModel) {
       t.ok(typeof metaModel === 'object', 'should be an object');
       return metaModel.fetch('people');
@@ -70,7 +70,6 @@ function start(t) {
       t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email should be miles.davis@gmail.com');
       var skillLevels = person.get('_meta.skillLevels');
       t.ok(typeof skillLevels === 'object', 'should be an object');
-      console.log(skillLevels)
       t.ok(skillLevels.collection().length === 2, 'collection length should be 2');
       t.ok(person.isDirty() === false, 'should not be dirty');
       t.ok(typeof skillLevels.set === 'function',  'should be a function');
@@ -130,7 +129,6 @@ function start(t) {
       t.ok(person.get('email') === 'miles.davis@gmail.com', 'person email should be miles.davis@gmail.com');
       var skillLevels = person.get('_meta.skillLevels');
       t.ok(typeof skillLevels === 'object', 'should be an object');
-      console.log(skillLevels);
       t.ok(skillLevels.collection().length === 2, 'collection length should be 2');
       t.ok(person.isDirty() === false, 'should not be dirty');
       t.ok(typeof skillLevels.set === 'function',  'should be a function');
