@@ -1,6 +1,6 @@
 {
   "name": "lance-rest-client",
-  "version": "2.1.2",
+  "version": "2.1.5",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -28,7 +28,6 @@
   "dependencies": {
     "clone": "^1.0.2",
     "dotty": "0.0.2",
-    "es6-promise": "^2.1.0",
     "inherits": "^2.0.1",
     "isomorphic-fetch": "^2.0.2",
     "lodash": "^3.8.0",
