@@ -28,9 +28,10 @@
   "dependencies": {
     "clone": "^1.0.2",
     "dotty": "0.0.2",
+    "es6-promise": "^2.1.0",
+    "fetch-everywhere": "1.0.5",
     "inherits": "^2.0.1",
     "isomorphic-fetch": "^2.0.2",
-    "es6-promise": "^2.1.0",
     "lodash": "^3.8.0",
     "string-template": "^0.2.0",
     "xtend": "^4.0.0"
